@@ -1296,10 +1296,14 @@
             <button class="video-modal-close" onclick="closeVideoModal()">×</button>
             <button class="video-nav-btn video-nav-prev" onclick="previousVideo()">‹</button>
             <button class="video-nav-btn video-nav-next" onclick="nextVideo()">›</button>
-            <video id="playerVideo" controls>
-                <source id="videoSource" src="" type="video/mp4">
-                Your browser does not support the video tag.
-            </video>
+            <iframe id="playerVideo" 
+                src="" 
+                width="100%" 
+                height="100%" 
+                frameborder="0" 
+                allow="autoplay; fullscreen; picture-in-picture" 
+                allowfullscreen>
+            </iframe>
         </div>
     </div>
 
@@ -1327,36 +1331,35 @@
 
         const videoModal = document.getElementById('videoModal');
         const playerVideo = document.getElementById('playerVideo');
-        const videoSource = document.getElementById('videoSource');
         const videoModalContent = document.querySelector('.video-modal-content');
         const workItems = document.querySelectorAll('.work-item');
         let currentVideoIndex = 0;
 
         const videoUrls = [
-            'work-1.mp4',
-            'https://www.w3schools.com/html/mov_bbb.mp4',
-            'https://www.w3schools.com/html/mov_bbb.mp4',
-            'https://www.w3schools.com/html/mov_bbb.mp4',
-            'https://www.w3schools.com/html/mov_bbb.mp4',
-            'https://www.w3schools.com/html/mov_bbb.mp4',
-            'https://www.w3schools.com/html/mov_bbb.mp4',
-            'https://www.w3schools.com/html/mov_bbb.mp4',
-            'https://www.w3schools.com/html/mov_bbb.mp4',
-            'https://www.w3schools.com/html/mov_bbb.mp4',
-            'https://www.w3schools.com/html/mov_bbb.mp4',
-            'https://www.w3schools.com/html/mov_bbb.mp4',
-            'https://www.w3schools.com/html/mov_bbb.mp4',
-            'https://www.w3schools.com/html/mov_bbb.mp4',
-            'https://www.w3schools.com/html/mov_bbb.mp4',
-            'https://www.w3schools.com/html/mov_bbb.mp4',
-            'https://www.w3schools.com/html/mov_bbb.mp4',
-            'https://www.w3schools.com/html/mov_bbb.mp4',
-            'https://www.w3schools.com/html/mov_bbb.mp4',
-            'https://www.w3schools.com/html/mov_bbb.mp4',
-            'https://www.w3schools.com/html/mov_bbb.mp4',
-            'https://www.w3schools.com/html/mov_bbb.mp4',
-            'https://www.w3schools.com/html/mov_bbb.mp4',
-            'https://www.w3schools.com/html/mov_bbb.mp4'
+            'https://player.vimeo.com/video/1229678032',
+            'https://player.vimeo.com/video/1229682988',
+            'https://player.vimeo.com/video/1229683006',
+            'https://player.vimeo.com/video/1229683014',
+            'https://player.vimeo.com/video/1229683036',
+            'https://player.vimeo.com/video/1229683223',
+            'https://player.vimeo.com/video/1229683596',
+            'https://player.vimeo.com/video/1229683569',
+            'https://player.vimeo.com/video/1229683515',
+            'https://player.vimeo.com/video/1229683511',
+            'https://player.vimeo.com/video/1229683498',
+            'https://player.vimeo.com/video/1229683474',
+            'https://player.vimeo.com/video/1229683449',
+            'https://player.vimeo.com/video/1229683418',
+            'https://player.vimeo.com/video/1229683416',
+            'https://player.vimeo.com/video/1229683406',
+            'https://player.vimeo.com/video/1229683357',
+            'https://player.vimeo.com/video/1229683323',
+            'https://player.vimeo.com/video/1229683321',
+            'https://player.vimeo.com/video/1229683296',
+            'https://player.vimeo.com/video/1229683222',
+            'https://player.vimeo.com/video/1229683220',
+            'https://player.vimeo.com/video/1229683221',
+            'https://player.vimeo.com/video/1229683062'
         ];
 
         const videoOrientations = [
@@ -1376,13 +1379,11 @@
 
         function openVideoModal(index) {
             currentVideoIndex = index;
-            videoSource.src = videoUrls[index];
-            playerVideo.load();
+            playerVideo.src = videoUrls[index];
             const isLandscape = videoOrientations[index];
             videoModalContent.classList.remove('landscape', 'portrait');
             videoModalContent.classList.add(isLandscape ? 'landscape' : 'portrait');
             videoModal.classList.add('active');
-            playerVideo.play();
             updateNavButtons();
         }
 
