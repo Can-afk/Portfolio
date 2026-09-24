@@ -51,6 +51,8 @@ dialog{position:fixed;inset:0;width:100vw;height:100dvh;max-width:none;max-heigh
 .modal-toolbar{justify-content:flex-end}
 .video-frame{container-type:inline-size}
 .video-frame>.modal-title{position:absolute;left:3%;right:3%;bottom:8%;z-index:1;margin:0;color:#fff;font-size:clamp(22px,7vw,110px);font-size:clamp(18px,8cqw,110px);font-weight:750;line-height:1.05;letter-spacing:-.025em;white-space:normal;overflow-wrap:anywhere;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden;text-shadow:0 2px 20px #0009;pointer-events:none}
+.video-frame>.modal-title{opacity:1;transition:opacity .8s ease}
+.video-frame>.modal-title.title-faded{opacity:0}
 </style>
 </head>
 <body>
@@ -372,6 +374,16 @@ function fitVideo() {
  const width = Math.max(0, Math.min(box.width - 2 * gutter, 1400, box.height * ratio));
  $('videoFrame').style.width = width + 'px'; $('videoFrame').style.height = width / ratio + 'px';
 }
+let titleFadeTimer;
+function showVideoTitle() {
+ clearTimeout(titleFadeTimer);
+ const title = $('modalTitle');
+ title.style.transition = 'none';
+ title.classList.remove('title-faded');
+ void title.offsetWidth;
+ title.style.removeProperty('transition');
+ titleFadeTimer = setTimeout(() => title.classList.add('title-faded'), 5000);
+}
 function openVideo(index) {
  if (index < 0 || index >= records.length) return;
  currentIndex = index; const record = records[index];
@@ -383,12 +395,12 @@ function openVideo(index) {
  $('previousVideo').disabled = index === 0; $('nextVideo').disabled = index === records.length-1;
  $('videoCount').textContent = `${index+1} / ${records.length}`;
  $('vimeoLink').href = record.project.url || `https://vimeo.com/${record.project.id}`;
- fitVideo(); loadMetadata(record);
+ fitVideo(); loadMetadata(record); showVideoTitle();
  // A navigation button may become disabled on the first/last item.
  if (document.activeElement.disabled) $('closeVideo').focus();
 }
 function closeVideo() { if (modal.open) modal.close(); }
-modal.addEventListener('close', () => { player.src = 'about:blank'; document.body.style.overflow = savedOverflow; if (returnFocus?.isConnected) returnFocus.focus(); });
+modal.addEventListener('close', () => { clearTimeout(titleFadeTimer); player.src = 'about:blank'; document.body.style.overflow = savedOverflow; if (returnFocus?.isConnected) returnFocus.focus(); });
 $('closeVideo').addEventListener('click',closeVideo);
 $('previousVideo').addEventListener('click',()=>openVideo(currentIndex-1));
 $('nextVideo').addEventListener('click',()=>openVideo(currentIndex+1));
