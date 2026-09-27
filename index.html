@@ -93,13 +93,18 @@ input,textarea,select{font-family:inherit}
 .about-services{overflow:hidden;min-width:0}
 .services-window{width:100%;overflow:hidden;-webkit-mask-image:linear-gradient(to right,transparent 0%,#000 22%,#000 92%,transparent 100%);mask-image:linear-gradient(to right,transparent 0%,#000 22%,#000 92%,transparent 100%)}
 .services-track{display:flex;width:max-content;animation:services-drift 28s linear infinite;will-change:transform}
-.about-services .services-group{display:flex;flex:none;gap:16px;width:max-content;padding:0 16px 0 0;margin:0;list-style:none}
+.about-services .services-group{display:flex;flex:none;gap:28px;width:max-content;padding:0 28px 0 0;margin:0;list-style:none}
 .about-services .services-group li{flex:0 0 180px;width:180px;height:260px;padding:26px 20px;justify-content:space-between;border-radius:16px}
 .about-services .service-symbol{width:48px;height:48px;border-radius:13px}
 .about-services h4{font-size:18px}
 @keyframes services-drift{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 @media(max-width:480px){.about-services .services-group li{flex-basis:160px;width:160px;height:230px;padding:22px 18px}.about-services h4{font-size:16px}}
 @media(prefers-reduced-motion:reduce){.services-track{animation:none;will-change:auto}.services-window{overflow-x:auto;-webkit-mask-image:none;mask-image:none}.services-copy{display:none!important}}
+/* Blue neon outlines and a little more breathing room. */
+.services-window{padding-block:20px}
+.about-services .services-group li{border:1px solid #479cff;box-shadow:0 0 5px rgba(71,156,255,.65),0 0 15px rgba(0,102,255,.28),inset 0 0 9px rgba(71,156,255,.08)}
+.light-mode .about-services .services-group li{border-color:#0066ff;box-shadow:0 0 5px rgba(0,102,255,.35),0 0 14px rgba(0,102,255,.16),inset 0 0 8px rgba(0,102,255,.04)}
+@media(min-width:1101px){.about-services{transform:translateX(-24px)}}
 </style>
 </head>
 <body>
