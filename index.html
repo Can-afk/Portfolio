@@ -129,6 +129,8 @@ input,textarea,select{font-family:inherit}
 .available-status{font-size:15px;font-weight:700;line-height:1.4;color:var(--text);gap:11px;padding:11px 16px;border-radius:30px;border:1px solid rgba(82,151,255,.35);background:rgba(82,151,255,.08);white-space:nowrap}
 .available-status::before{width:9px;height:9px;flex-shrink:0;background:var(--accent);box-shadow:0 0 0 4px rgba(82,151,255,.13)}
 .light-mode .available-status{color:#14253e;border-color:rgba(0,91,224,.25);background:#edf4ff}
+.contrast-cursor{position:fixed;top:0;left:0;width:14px;height:14px;border-radius:50%;background:#fff;mix-blend-mode:difference;pointer-events:none;z-index:2147483647;opacity:0;transform:translate(-50%,-50%)}
+@media(hover:hover) and (pointer:fine){html.custom-cursor-active,html.custom-cursor-active *{cursor:none!important}html.custom-cursor-active iframe{cursor:auto!important}.contrast-cursor.visible{opacity:1}}
 </style>
 </head>
 <body>
@@ -535,6 +537,34 @@ document.querySelectorAll('.services-group li').forEach(card => {
 });
 window.addEventListener('blur',()=>resetActiveTilt());
 document.addEventListener('visibilitychange',()=>{if(document.hidden)resetActiveTilt();});
+
+// A white difference-blended dot inverts the pixels beneath it.
+const cursorMedia = matchMedia('(hover: hover) and (pointer: fine)');
+const cursorDot = document.createElement('div');
+cursorDot.className = 'contrast-cursor'; cursorDot.setAttribute('aria-hidden','true');
+document.body.append(cursorDot);
+function hideCustomCursor() {
+ cursorDot.classList.remove('visible');
+ document.documentElement.classList.remove('custom-cursor-active');
+}
+function cursorHost() {
+ const host = modal.open ? modal : document.body;
+ if (cursorDot.parentElement !== host) host.append(cursorDot);
+}
+document.addEventListener('pointermove', event => {
+ if (!cursorMedia.matches || event.pointerType !== 'mouse' || event.target.closest('iframe')) { hideCustomCursor(); return; }
+ cursorHost();
+ cursorDot.style.left = event.clientX + 'px'; cursorDot.style.top = event.clientY + 'px';
+ cursorDot.classList.add('visible');
+ document.documentElement.classList.add('custom-cursor-active');
+}, {passive:true});
+// Embedded Vimeo controls retain their native cursor inside the cross-origin frame.
+player.addEventListener('pointerenter',hideCustomCursor);
+document.documentElement.addEventListener('pointerleave',hideCustomCursor);
+window.addEventListener('blur',hideCustomCursor);
+document.addEventListener('visibilitychange',()=>{if(document.hidden)hideCustomCursor();});
+cursorMedia.addEventListener('change',hideCustomCursor);
+new MutationObserver(()=>{hideCustomCursor();cursorHost();}).observe(modal,{attributes:true,attributeFilter:['open']});
 </script>
 </body>
 </html>
