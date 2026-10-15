@@ -185,6 +185,18 @@ p,.hero-description,.about-text,.about-services p,.work-detail,footer{font-weigh
 @media(max-width:900px){.more-work-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}}
 @media(max-width:600px){#videoModal .modal-shell{padding:0 12px 40px}#videoModal .player-space{height:60dvh;--nav-space:36px}#videoModal .video-nav-btn{width:30px;height:36px}.more-work-grid{gap:12px}.more-work-card{border-radius:8px}.more-work-card .play span{width:32px;height:32px;font-size:13px}}
 @media(prefers-reduced-motion:reduce){.more-work-card:hover,.more-work-card:hover img{transform:none}}
+
+/* Project viewer follows the page theme, including its top-layer dialog. */
+#videoModal{background:var(--bg);color:var(--text)}
+#videoModal .modal-toolbar{background:var(--bg);border-bottom-color:var(--border)}
+#videoModal .modal-bottom{border-bottom-color:var(--border)}
+#videoModal .modal-close,#videoModal .video-nav-btn{background:var(--surface);color:var(--text);border-color:var(--border)}
+#videoModal .modal-close:hover,#videoModal .video-nav-btn:hover:not(:disabled){border-color:var(--accent)}
+#videoModal .video-count,#videoModal .vimeo-link,#videoModal .more-work h2{color:var(--muted)}
+#videoModal .video-frame{background:var(--surface)}
+#videoModal .more-work-card{background:var(--surface);color:var(--text);border-color:var(--border)}
+#videoModal .more-work-card:hover{border-color:var(--accent)}
+#videoModal .more-work-card:focus-visible{outline-color:var(--accent)}
 </style>
 </head>
 <body>
